@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild , ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'teamstat';
+  @ViewChild('navbar') private navbar: ElementRef;
+
+  toggle() {
+    if (this.navbar.nativeElement.style.display === 'block') { this.navbar.nativeElement.style.display = 'none'; }
+    else { this.navbar.nativeElement.style.display = 'block'; }
+
+  }
 }
