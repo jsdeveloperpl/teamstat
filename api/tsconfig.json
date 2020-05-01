@@ -1,0 +1,15 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es5",
+        "strict": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "outDir": "dist",
+        "sourceMap": false,
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
