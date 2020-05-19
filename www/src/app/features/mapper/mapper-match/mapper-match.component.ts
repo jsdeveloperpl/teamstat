@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MapperService, MapperState, EventButtonDetail, TeamMatchEvent, MatchEventType } from '../mapper.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { BaseState } from 'src/app/core/base/route/route-state.service';
+import { EventButtonDetail, MapperService, MapperState, MatchEventType, TeamMatchEvent } from '../_services/mapper.service';
 
 @Component({
   selector: 'app-mapper-match',
@@ -22,15 +21,15 @@ export class MapperMatchComponent implements OnInit, OnDestroy {
   constructor(private mapperService: MapperService) { }
 
   ngOnInit(): void {
-    console.log(this);
     this.eventsMap = this.mapperService.getEventsMap();
     this.state = this.mapperService.state;
     this.state.match.events$.pipe(tap((e) => {
-      console.log(e);
-      this.awayTeamW3 = e.filter(({team, type}) => team === 'awayTeam' && type === MatchEventType.W3).length;
-      this.awayTeamSS = e.filter(({team, type}) => team === 'awayTeam' && type === MatchEventType.CreatedChance).length;
-      this.homeTeamW3 = e.filter(({team, type}) => team === 'homeTeam' && type === MatchEventType.W3).length;
-      this.homeTeamSS = e.filter(({team, type}) => team === 'homeTeam' && type === MatchEventType.CreatedChance).length;
+      this.awayTeamW3 = e.filter(({ team, type }) => team === 'awayTeam' && type === MatchEventType.W3).length;
+      // tslint:disable-next-line:max-line-length
+      this.awayTeamSS = e.filter(({ team, type }) => team === 'awayTeam' && type === MatchEventType.CreatedChance).length;
+      this.homeTeamW3 = e.filter(({ team, type }) => team === 'homeTeam' && type === MatchEventType.W3).length;
+      // tslint:disable-next-line:max-line-length
+      this.homeTeamSS = e.filter(({ team, type }) => team === 'homeTeam' && type === MatchEventType.CreatedChance).length;
     })).subscribe();
   }
 
@@ -42,36 +41,37 @@ export class MapperMatchComponent implements OnInit, OnDestroy {
     this.mapperService.finishMatch();
   }
 
-  addEvent(type: MatchEventType, team: 'homeTeam' | 'awayTeam') {
+  addEvent(event: { type: MatchEventType, team: 'homeTeam' | 'awayTeam' }) {
     const eventsSoFar = this.state.match.events$.getValue();
     const time = this.state.match.time$.getValue();
 
-    const event: TeamMatchEvent = {
-      team,
-      type,
+    const teamMatchEvent: TeamMatchEvent = {
+      team: event.team,
+      type: event.type,
       time,
-      third: time >= 900 ?  Math.floor(time / 900) : 1
+      third: time >= 900 ? Math.floor(time / 900) : 1
     };
 
     this.state.match.events$.next([
-      event,
+      teamMatchEvent,
       ...eventsSoFar,
     ]);
   }
 
-  removeLastEvent() {
-    const events: Array<TeamMatchEvent> = this.state.match.events$.getValue();
-    events.shift();
-    this.state.match.events$.next(events);
-  }
-
-
+  // removeLastEvent() {
+  //   const events: Array<TeamMatchEvent> = this.state.match.events$.getValue();
+  //   events.shift();
+  //   this.state.match.events$.next(events);
+  // }
 
   finishMatch() {
     this.mapperService.finishMatch();
   }
 
-  toggleMatchCounter(isPaused: boolean): void {
+  toggleMatchCounter(): void {
+    const isPaused = this.state.match.isPaused$.getValue();
+    this.state.match.isPaused$.next(!isPaused);
+
     if (isPaused) {
       this.mapperService.countMatchTime();
     } else {

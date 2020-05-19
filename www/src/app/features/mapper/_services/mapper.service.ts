@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { RouteStateService, BaseState } from 'src/app/core/base/route/route-state.service';
-import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
-import { NumberValueAccessor } from '@angular/forms';
-import { Router, Route, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { RouteStateService } from 'src/app/core/base/route/route-state.service';
 
 export class MatchDetails {
   time$: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -36,8 +35,8 @@ export abstract class Team {
 }
 
 export class MapperState {
-  homeTeam: Team = { name: '', events: []};
-  awayTeam: Team = { name: '', events: []};
+  homeTeam: Team = { name: '', events: [] };
+  awayTeam: Team = { name: '', events: [] };
   match: MatchDetails = new MatchDetails();
 }
 
@@ -48,7 +47,7 @@ export interface EventButtonDetail {
 }
 
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class MapperService extends RouteStateService<MapperState> {
   public state: MapperState;
 
@@ -63,11 +62,11 @@ export class MapperService extends RouteStateService<MapperState> {
 
   getEventsMap(): ReadonlyArray<EventButtonDetail> {
     return [
-      {type: MatchEventType.CreatedChance, label: 'chance', buttonStyle: 'primary'},
-      {type: MatchEventType.W3, label: 'w3', buttonStyle: 'secondary'},
-      {type: MatchEventType.Goal, label: 'goal', buttonStyle: 'info'},
-      {type: MatchEventType.OnTargetShot, label: 'on target', buttonStyle: 'success'},
-      {type: MatchEventType.OffTargetShot, label: 'off target', buttonStyle: 'danger'},
+      { type: MatchEventType.CreatedChance, label: 'chance', buttonStyle: 'primary' },
+      { type: MatchEventType.W3, label: 'w3', buttonStyle: 'secondary' },
+      { type: MatchEventType.Goal, label: 'goal', buttonStyle: 'info' },
+      { type: MatchEventType.OnTargetShot, label: 'on target', buttonStyle: 'success' },
+      { type: MatchEventType.OffTargetShot, label: 'off target', buttonStyle: 'danger' },
     ];
   }
 
