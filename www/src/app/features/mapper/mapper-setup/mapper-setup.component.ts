@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MapperState, MapperService } from '../mapper.service';
+import { MapperService, MapperState } from '../_services/mapper.service';
 
 @Component({
   selector: 'app-mapper-setup',
@@ -22,7 +22,7 @@ export class MapperSetupComponent implements OnInit {
 
   ngOnInit() {
     this.state = this.mapperService.state;
-   }
+  }
 
   startMatch() {
     if (this.state.awayTeam.name && this.state.homeTeam.name) {

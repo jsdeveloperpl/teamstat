@@ -1,0 +1,21 @@
+<div class="alert-primary mx-2">events feed
+  <button class="btn btn-success" (click)="removeLastEvent()">B</button>
+</div>
+<div class="m-2 flex-grow-1 feed">
+  <div class="d-flex flex-column">
+    <div class="d-flex" *ngFor="let event of events$ | async">
+      <div class="w-50 text-center" [class.bg-primary]="event.team === 'homeTeam' && event.type === 'chance'"
+        [class.bg-secondary]="event.team === 'homeTeam' && event.type === 'w3'"
+        [class.bg-info]="event.team === 'homeTeam' && event.type === 'goal'"
+        [class.bg-danger]="event.team === 'homeTeam' && event.type === 'offtargetShot'"
+        [class.bg-success]="event.team === 'homeTeam' && event.type === 'ontargetShot'">
+        {{ event.team === 'homeTeam' ? event.type : ''}}</div>
+      <div class="w-50 text-center" [class.bg-primary]="event.team === 'awayTeam' && event.type === 'chance'"
+        [class.bg-secondary]="event.team === 'awayTeam' && event.type === 'w3'"
+        [class.bg-info]="event.team === 'awayTeam' && event.type === 'goal'"
+        [class.bg-danger]="event.team === 'awayTeam' && event.type === 'offtargetShot'"
+        [class.bg-success]="event.team === 'awayTeam' && event.type === 'ontargetShot'">
+        {{ event.team === 'awayTeam' ? event.type : ''}}</div>
+    </div>
+  </div>
+</div>
